@@ -1,5 +1,6 @@
 import { Layout } from "@/components/layout/Layout";
-import { BookOpen, Search } from "lucide-react";
+import { BookOpen, Search, ArrowLeft } from "lucide-react";
+import { Link } from "react-router-dom";
 import { useState, useMemo, useRef } from "react";
 import { glossaryTerms, GlossaryTerm } from "@/data/content";
 import { cn } from "@/lib/utils";
@@ -77,6 +78,9 @@ const Glossary = () => {
 
   return (
     <Layout>
+      <Link to="/hr-topics" className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground mb-6">
+        <ArrowLeft className="h-4 w-4" /> Back to HR Topics
+      </Link>
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-4">
           <div className="bg-primary/10 p-3 rounded-full">

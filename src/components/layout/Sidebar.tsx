@@ -1,79 +1,40 @@
 import { Link, useLocation } from "react-router-dom";
 import {
-  Home,
-  Phone,
-  Mail,
-  AlertTriangle,
-  DollarSign,
-  Database,
-  Shield,
-  FileText,
-  Clipboard,
-  HelpCircle,
-  Flag,
   ChevronDown,
   ChevronRight,
   Menu,
   X,
-  MessageCircle,
 } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-
-interface SidebarLink {
-  to: string;
-  label: string;
-  icon: React.ElementType;
-  count?: number;
-}
-
-interface SidebarSection {
-  title: string;
-  links: SidebarLink[];
-  defaultOpen?: boolean;
-}
-
-const sidebarSections: SidebarSection[] = [
-  {
-    title: "Main Categories",
-    defaultOpen: true,
-    links: [
-      { to: "/", label: "Dashboard", icon: Home },
-      { to: "/phone-scripts", label: "Phone Scripts", icon: Phone, count: 24 },
-      { to: "/email-templates", label: "Email Templates", icon: Mail, count: 18 },
-      { to: "/jira-responses", label: "JIRA Responses", icon: AlertTriangle, count: 32 },
-      { to: "/payroll-scripts", label: "Payroll Scripts", icon: DollarSign, count: 15 },
-      { to: "/ec-sf-workflows", label: "EC-SF Workflows", icon: Database, count: 21 },
-      { to: "/security", label: "Security & Verification", icon: Shield, count: 12 },
-    ],
-  },
-  {
-    title: "Quick Links",
-    defaultOpen: true,
-    links: [
-      { to: "/glossary", label: "HR Glossary", icon: FileText },
-      { to: "https://bbraun-my.sharepoint.com/personal/angelica_nieto_bbraun_com/_layouts/15/Doc.aspx?sourcedoc={db088374-ab37-4bca-a9fd-79478ff7edc3}&action=edit&wd=target%28Quick%20Notes.one%7Ca767ec8c-ea7f-499a-be33-b1c6e4fd9067%2FQA%20HR%20TOPICS%7C491e14c0-f66c-4246-9172-463d51acc41d%2F%29&wdorigin=NavigationUrl", label: "Q&A HR Topics", icon: MessageCircle },
-      { to: "/call-flow", label: "Call Flow Diagram", icon: FileText },
-      { to: "/security-protocol", label: "Security Protocol", icon: Clipboard },
-      { to: "/decision-tree", label: "Decision Tree", icon: HelpCircle },
-    ],
-  },
-  {
-    title: "Country Filters",
-    defaultOpen: false,
-    links: [
-      { to: "/country/colombia", label: "Colombia", icon: Flag },
-      { to: "/country/ecuador", label: "Ecuador", icon: Flag },
-      { to: "/country/brazil", label: "Brazil", icon: Flag },
-      { to: "/country/usa", label: "USA", icon: Flag },
-      { to: "/country/canada", label: "Canada", icon: Flag },
-    ],
-  },
-];
+import { categoryPathMap, categoryMap, sidebarSections, SidebarLink, SidebarSection } from "./sidebarConfig"; 
+export { categoryPathMap, categoryMap, sidebarSections };
+export type { SidebarLink, SidebarSection };
 
 function SidebarSectionComponent({ section }: { section: SidebarSection }) {
   const [isOpen, setIsOpen] = useState(section.defaultOpen ?? true);
   const location = useLocation();
+
+  const category = categoryPathMap[location.pathname];
+
+  let links = section.links;
+
+  if (category && categoryMap[category]) {
+    if (section.title === "Main Categories" || section.title === "Quick Links") {
+      links = section.links.filter((link) => {
+        return categoryMap[category].some((catLink) =>
+          link.to.startsWith(catLink)
+        );
+      });
+    } else if (section.title === "Country Filters") {
+      // Hide country filters when a category is selected for now
+      links = [];
+    }
+  }
+
+
+  // Hide section if no links are visible after filtering
+  if (links.length === 0) return null;
 
   return (
     <div className="mb-6">
@@ -91,7 +52,7 @@ function SidebarSectionComponent({ section }: { section: SidebarSection }) {
 
       {isOpen && (
         <div className="space-y-1 animate-fade-in">
-          {section.links.map((link) => {
+          {links.map((link) => {
             const Icon = link.icon;
             const isActive = location.pathname === link.to;
             const isExternal = link.to.startsWith("http");

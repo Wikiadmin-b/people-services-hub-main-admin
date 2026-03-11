@@ -1,5 +1,6 @@
 import { Layout } from "@/components/layout/Layout";
-import { Shield, Copy, Check, Search } from "lucide-react";
+import { Shield, Copy, Check, Search, ArrowLeft } from "lucide-react";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { toast } from "@/hooks/use-toast";
@@ -66,6 +67,9 @@ const Security = () => {
 
   return (
     <Layout>
+      <Link to="/hr-topics" className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground mb-6">
+        <ArrowLeft className="h-4 w-4" /> Back to HR Topics
+      </Link>
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-4">
           <div className="bg-purple-light p-3 rounded-full">

@@ -4,7 +4,6 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
-  { to: "/", label: "Home", icon: Home },
   { to: "/favorites", label: "Favorites", icon: Star },
   { to: "/recent", label: "Recent", icon: Clock },
   { to: "/help", label: "Help", icon: HelpCircle },
@@ -27,7 +26,7 @@ export function Navbar() {
         <nav className="hidden md:flex items-center gap-6">
           {navLinks.map((link) => {
             const Icon = link.icon;
-            const isActive = location.pathname === link.to;
+            const isActive = location.pathname.startsWith(link.to);
             return (
               <Link
                 key={link.to}
@@ -59,7 +58,7 @@ export function Navbar() {
         <nav className="md:hidden bg-primary border-t border-primary-foreground/20 animate-fade-in">
           {navLinks.map((link) => {
             const Icon = link.icon;
-            const isActive = location.pathname === link.to;
+            const isActive = location.pathname.startsWith(link.to);
             return (
               <Link
                 key={link.to}

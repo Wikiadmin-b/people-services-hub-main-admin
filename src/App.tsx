@@ -13,6 +13,7 @@ import Glossary from "./pages/Glossary";
 import { GenericPage, CountryPage } from "./pages/GenericPage";
 import NotFound from "./pages/NotFound";
 
+import CategoryRoutePage from "./pages/CategoryRoutePage";
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -29,6 +30,11 @@ const App = () => (
           <Route path="/security" element={<Security />} />
           <Route path="/search" element={<SearchPage />} />
           <Route path="/glossary" element={<Glossary />} />
+          
+          {/* Category Gateway Pages */}
+          <Route path="/hr-topics" element={<CategoryRoutePage />} />
+          <Route path="/learning" element={<CategoryRoutePage />} />
+          <Route path="/payroll" element={<CategoryRoutePage />} />
           
           {/* Generic Pages */}
           <Route path="/payroll-scripts" element={<GenericPage pageKey="payroll-scripts" />} />
