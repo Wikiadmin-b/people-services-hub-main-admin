@@ -1,6 +1,6 @@
 import { Layout } from "@/components/layout/Layout";
 import { Shield, Copy, Check, Search, ArrowLeft } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { toast } from "@/hooks/use-toast";
@@ -47,6 +47,9 @@ const languageLabels: Record<Language, string> = {
 };
 
 const Security = () => {
+  const location = useLocation();
+  const { from, fromLabel } = location.state || { from: "/hr-topics", fromLabel: "HR Topics" };
+
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedLang, setSelectedLang] = useState<Language>("en");
   const [copiedId, setCopiedId] = useState<number | null>(null);
@@ -59,16 +62,35 @@ const Security = () => {
 
   const handleCopy = async (id: number, questions: typeof securityScripts[0]["questions"]) => {
     const text = questions.map((q, i) => `${i + 1}. ${q[selectedLang]}`).join("\n");
-    await navigator.clipboard.writeText(text);
-    setCopiedId(id);
-    toast({ title: "Copied!", description: "Security questions copied to clipboard" });
-    setTimeout(() => setCopiedId(null), 2000);
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+      } else {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.style.position = "fixed";
+        textArea.style.left = "-999999px";
+        textArea.style.top = "-999999px";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        const successful = document.execCommand("copy");
+        textArea.remove();
+        if (!successful) throw new Error("Copy failed");
+      }
+      setCopiedId(id);
+      toast({ title: "Copied!", description: "Security questions copied to clipboard" });
+      setTimeout(() => setCopiedId(null), 2000);
+    } catch (err) {
+      console.error("Failed to copy text: ", err);
+      toast({ title: "Copy Failed", description: "Could not copy to clipboard.", variant: "destructive" });
+    }
   };
 
   return (
     <Layout>
-      <Link to="/hr-topics" className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground mb-6">
-        <ArrowLeft className="h-4 w-4" /> Back to HR Topics
+      <Link to={from} className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground mb-6">
+        <ArrowLeft className="h-4 w-4" /> Back to {fromLabel}
       </Link>
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-4">

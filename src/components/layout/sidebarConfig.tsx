@@ -1,4 +1,4 @@
-import { Home, Phone, Mail, AlertTriangle, Shield, Search, Book, FileText, Layout, Globe } from "lucide-react";
+import { Home, Phone, Mail, AlertTriangle, Shield, Book, FileText, Layout, Globe } from "lucide-react";
 
 export interface SidebarLink {
   to: string;
@@ -33,6 +33,10 @@ export const categoryMap: Record<string, string[]> = {
     "/call-flow",
     "/decision-tree",
     "/glossary",
+    "/phone-scripts",
+    "/email-templates",
+    "/jira-responses",
+    "/security",
   ],
   payroll: ["/payroll-scripts"],
 };
@@ -46,7 +50,6 @@ export const sidebarSections: SidebarSection[] = [
       { to: "/email-templates", label: "Email Templates", icon: Mail, count: 18 },
       { to: "/jira-responses", label: "JIRA Responses", icon: AlertTriangle, count: 32 },
       { to: "/security", label: "Security & Compliance", icon: Shield },
-      { to: "/search", label: "Global Search", icon: Search },
       { to: "/glossary", label: "HR Glossary", icon: Book },
     ],
   },
@@ -54,7 +57,6 @@ export const sidebarSections: SidebarSection[] = [
     title: "Quick Links",
     defaultOpen: true,
     links: [
-      { to: "/payroll-scripts", label: "Payroll Scripts", icon: FileText },
       { to: "/ec-sf-workflows", label: "EC & SF Workflows", icon: Layout },
       { to: "/call-flow", label: "Call Flow Guide", icon: Phone },
       { to: "/security-protocol", label: "Security Protocol", icon: Shield },

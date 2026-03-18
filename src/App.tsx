@@ -12,6 +12,7 @@ import SearchPage from "./pages/SearchPage";
 import Glossary from "./pages/Glossary";
 import { GenericPage, CountryPage } from "./pages/GenericPage";
 import NotFound from "./pages/NotFound";
+import AdminLogin from "./pages/AdminLogin";
 
 import CategoryRoutePage from "./pages/CategoryRoutePage";
 const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ const App = () => (
       <BrowserRouter basename={import.meta.env.BASE_URL}>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/admin" element={<AdminLogin />} />
           <Route path="/phone-scripts" element={<PhoneScripts />} />
           <Route path="/email-templates" element={<EmailTemplates />} />
           <Route path="/jira-responses" element={<JiraResponses />} />

@@ -126,6 +126,7 @@ export function CategoryPage() {
             <Link
               key={link.to}
               to={link.to}
+              state={{ from: location.pathname, fromLabel: title }}
               className="group flex flex-col p-6 bg-card border rounded-xl shadow-sm hover:shadow-md transition-all cursor-pointer"
             >
               {Content}

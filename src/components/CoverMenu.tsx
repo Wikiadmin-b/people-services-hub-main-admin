@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { BookUser, GraduationCap, Landmark } from "lucide-react";
+import { BookUser, GraduationCap, Landmark, Lock } from "lucide-react";
 
 const categories = [
   {
@@ -48,6 +48,10 @@ export function CoverMenu() {
           );
         })}
       </div>
+      <Link to="/admin" className="fixed bottom-6 left-6 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-background border shadow-sm text-muted-foreground hover:text-foreground hover:bg-muted transition-colors z-50">
+        <Lock className="h-4 w-4" />
+        Admin Access
+      </Link>
     </div>
   );
 }
