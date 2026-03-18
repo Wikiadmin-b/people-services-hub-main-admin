@@ -4,7 +4,7 @@ import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: "/people-services-hub-main/",
+  base: "/people-services-hub-main-admin/",
   server: {
     host: "::",
     port: 8080,
